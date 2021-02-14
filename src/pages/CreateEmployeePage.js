@@ -20,8 +20,8 @@ class CreateEmployeePage extends React.Component {
     this.setState({ departmentValues: data });
   };
 
-  getRolesValues = async () => {
-    const { data } = await axios.get("http://localhost:3001/roles/name-id");
+  getRolesValues = async (departmentId) => {
+    const { data } = await axios.get(`http://localhost:3001/departments/${departmentId}/roles`);
     this.setState({ roleValues: data });
   }
 
@@ -36,9 +36,14 @@ class CreateEmployeePage extends React.Component {
     console.log('form submitted');
   }
 
+  handleDepartmentSelect = (event) => {
+    const departmentId = event.target.value;
+    this.getRolesValues(departmentId);
+    this.setState({departmentId: departmentId});
+  }
+
   componentDidMount() {
     this.getDepartmentValues();
-    this.getRolesValues();
     this.getManagerValues();
   }
 
@@ -88,7 +93,7 @@ class CreateEmployeePage extends React.Component {
               <Form.Label>Department</Form.Label>
               <Form.Control 
                 as="select" 
-                onChange={(event) => this.setState({departmentId: event.target.value})}
+                onChange={this.handleDepartmentSelect}
                 value={this.departmentId}
                 >
                 <option value={null}>Choose</option>
@@ -103,7 +108,7 @@ class CreateEmployeePage extends React.Component {
                 onChange={(event) => this.setState({roleId: event.target.value})}
                 value={this.roleId}
                 >
-                <option value={null}>Choose...</option>
+                {this.state.departmentId ? <option value={null}>Choose...</option> : <option value={null}>Select Department</option>}
                 {this.renderOptions(this.state.roleValues, 'id', 'title')}
               </Form.Control>
             </Form.Group>
