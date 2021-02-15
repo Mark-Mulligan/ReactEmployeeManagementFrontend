@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { Form, Col, Button } from "react-bootstrap";
-import CustomFormInput from '../components/CustomFormInput';
+import CustomFormInput from "../components/CustomFormInput";
+import CustomFormSelect from "../components/CustomFormSelect";
 
 class CreateEmployeePage extends React.Component {
   state = {
@@ -14,6 +15,15 @@ class CreateEmployeePage extends React.Component {
     roleValues: [],
     managerValues: [],
   };
+
+  checkFormInputs() {
+    const { firstName, lastName, departmentId, roleId, managerId} = this.state;
+    if (firstName !== '' && lastName !== '' && departmentId && roleId && managerId) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   getDepartmentValues = async () => {
     const { data } = await axios.get(
@@ -46,6 +56,14 @@ class CreateEmployeePage extends React.Component {
     const departmentId = event.target.value;
     this.getRolesValues(departmentId);
     this.setState({ departmentId: departmentId });
+    this.setState({ roleId: null });
+  };
+
+  handleRoleSelect = (e) => {
+    this.setState({ roleId: e.target.value })
+  };
+  handleManagerSelect = (e) => {
+    this.setState({ managerId: e.target.value })
   };
 
   componentDidMount() {
@@ -71,22 +89,26 @@ class CreateEmployeePage extends React.Component {
         <Form onSubmit={this.handleFormSubmit}>
           <Form.Row>
             <Col xs={12} sm={6}>
-                <CustomFormInput
-                  controlId="firstNameInput" 
-                  label="First Name" 
-                  type="text"
-                  placeholder="First"
-                  onInputChange={(event) => this.setState({ firstName: event.target.value })}
-                  value={this.firstName}  
-                  />
+              <CustomFormInput
+                controlId="firstNameInput"
+                label="First Name"
+                type="text"
+                placeholder="First"
+                onInputChange={(e) => {
+                  this.setState({ firstName: e.target.value })
+                }}
+                value={this.firstName}
+              />
             </Col>
             <Col xs={12} sm={6}>
-              <CustomFormInput 
+              <CustomFormInput
                 controlId="lastNameInput"
                 label="Last Name"
                 type="text"
                 placeholder="Last"
-                onInputChange={event => this.setState({ lastName: event.target.value })}
+                onInputChange={(e) => {
+                  this.setState({ lastName: e.target.value })
+                }}
                 value={this.lastName}
               />
             </Col>
@@ -94,65 +116,57 @@ class CreateEmployeePage extends React.Component {
 
           <Form.Row>
             <Col sm={12} md={4}>
-              <Form.Group controlId="departmentSelect">
-                <Form.Label>Department</Form.Label>
-                <Form.Control
-                  as="select"
-                  onChange={this.handleDepartmentSelect}
-                  value={this.departmentId}
-                >
-                  <option hidden>Choose</option>
-                  {this.renderOptions(
-                    this.state.departmentValues,
-                    "id",
-                    "name"
-                  )}
-                </Form.Control>
-              </Form.Group>
+              <CustomFormSelect
+                controlId="departmentSelect"
+                label="Department"
+                type="select"
+                onSelectChange={this.handleDepartmentSelect}
+                value={this.departmentId}
+                placeholder="Choose"
+                options={this.renderOptions(
+                  this.state.departmentValues,
+                  "id",
+                  "name"
+                )}
+              />
             </Col>
 
             <Col sm={12} md={4}>
-              <Form.Group controlId="formGridState">
-                <Form.Label>Role</Form.Label>
-                <Form.Control
-                  as="select"
-                  onChange={(event) =>
-                    this.setState({ roleId: event.target.value })
-                  }
-                  value={this.roleId}
-                >
-                  {this.state.departmentId ? (
-                    <option hidden>Choose</option>
-                  ) : (
-                    <option hidden>Must select department</option>
-                  )}
-                  {this.renderOptions(this.state.roleValues, "id", "title")}
-                </Form.Control>
-              </Form.Group>
+              <CustomFormSelect
+                controlId="roleSelect"
+                label="Role"
+                type="select"
+                onSelectChange={this.handleRoleSelect}
+                value={this.roleId}
+                placeholder={
+                  this.state.departmentId ? "Choose" : "Must select department"
+                }
+                options={this.renderOptions(
+                  this.state.roleValues,
+                  "id",
+                  "title"
+                )}
+              />
             </Col>
 
             <Col sm={12} md={4}>
-              <Form.Group controlId="formGridZip">
-                <Form.Label>Manager</Form.Label>
-                <Form.Control
-                  as="select"
-                  onChange={(event) =>
-                    this.setState({ managerId: event.target.value })
-                  }
-                  value={this.managerId}
-                >
-                  <option hidden>Choose</option>
-                  {this.renderOptions(
-                    this.state.managerValues,
-                    "id",
-                    "manager"
-                  )}
-                </Form.Control>
-              </Form.Group>
+              <CustomFormSelect
+                controlId="managerSelect"
+                label="Manager"
+                type="select"
+                onSelectChange={this.handleManagerSelect}
+                value={this.managerId}
+                placeholder={"Choose"}
+                options={this.renderOptions(
+                  this.state.managerValues,
+                  "id",
+                  "manager"
+                )}
+              />
             </Col>
           </Form.Row>
 
-          <Button variant="primary" type="submit">
+          <Button disabled={this.checkFormInputs()} variant="primary" type="submit">
             Submit
           </Button>
         </Form>
