@@ -7,6 +7,7 @@ class DepartmentsPage extends React.Component {
 
   getDepartments = async () => {
     const { data } = await axios.get("http://localhost:3001/departments");
+    console.log(data);
     this.setState({ departments: data });
   };
 

@@ -44,6 +44,15 @@ class CreateEmployeePage extends React.Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault();
+    axios.post('/departments', {
+      firstName: 'Finn',
+      lastName: 'Williams'
+    })
+    .then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
     console.log(this.state);
     console.log("form submitted");
   };

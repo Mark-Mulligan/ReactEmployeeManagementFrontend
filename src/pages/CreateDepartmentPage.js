@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import CustomFormInput from "../components/CustomFormInput";
 
@@ -14,6 +15,15 @@ class CreateDepartmentPage extends React.Component {
     event.preventDefault();
     console.log(this.state);
     console.log("form submitted");
+    axios.post('http://localhost:3001/departments', {
+      departmentName: this.state.departmentName,
+    }).then((response) => {
+      if (response.status === 200) {
+        this.props.history.push('/departments')
+      }
+    }, (error) => {
+      console.log(error);
+    });
   };
    
   render() {

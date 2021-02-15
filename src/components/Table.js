@@ -30,7 +30,7 @@ class Table extends React.Component {
 
   renderTableBodyRow(item) {
     return this.props.tableBodyKeys.map((itemKey) => {
-      return <td key={`${itemKey}-${item.id}`}>{item[itemKey]}</td>;
+      return <td key={`${itemKey}-${item.id}`}>{item[itemKey] === null ? 'N/A' : item[itemKey]}</td>;
     });
   }
 
