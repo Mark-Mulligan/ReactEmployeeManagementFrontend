@@ -16,8 +16,8 @@ class DepartmentsPage extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <h2 className="text-center">Department Table</h2>
+      <div className="container mt-5">
+        <h2 className="text-center">Departments</h2>
         <Table 
           tableHeaders={["Id", "Name", "Employees", "Positions", "Total Utilization"]} 
           tableBodyData={this.state.departments}

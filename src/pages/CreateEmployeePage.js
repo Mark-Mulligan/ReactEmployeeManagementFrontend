@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Form, Col, Button } from "react-bootstrap";
+import { Form, Col, Row, Button } from "react-bootstrap";
 import CustomFormInput from "../components/CustomFormInput";
 import CustomFormSelect from "../components/CustomFormSelect";
 
@@ -18,11 +18,7 @@ class CreateEmployeePage extends React.Component {
 
   checkFormInputs() {
     const { firstName, lastName, departmentId, roleId, managerId} = this.state;
-    if (firstName !== '' && lastName !== '' && departmentId && roleId && managerId) {
-      return false;
-    } else {
-      return true;
-    }
+    return (firstName !== '' && lastName !== '' && departmentId && roleId && managerId) ? false : true;
   }
 
   getDepartmentValues = async () => {
@@ -85,9 +81,11 @@ class CreateEmployeePage extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container mt-5">
+        <h2 className="text-center mb-3">Create Employee</h2>
+
         <Form onSubmit={this.handleFormSubmit}>
-          <Form.Row>
+          <Row>
             <Col xs={12} sm={6}>
               <CustomFormInput
                 controlId="firstNameInput"
@@ -112,9 +110,9 @@ class CreateEmployeePage extends React.Component {
                 value={this.lastName}
               />
             </Col>
-          </Form.Row>
+          </Row>
 
-          <Form.Row>
+          <Row>
             <Col sm={12} md={4}>
               <CustomFormSelect
                 controlId="departmentSelect"
@@ -164,9 +162,9 @@ class CreateEmployeePage extends React.Component {
                 )}
               />
             </Col>
-          </Form.Row>
+          </Row>
 
-          <Button disabled={this.checkFormInputs()} variant="primary" type="submit">
+          <Button disabled={this.checkFormInputs()} variant="secondary" type="submit">
             Submit
           </Button>
         </Form>

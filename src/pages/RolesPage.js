@@ -16,8 +16,8 @@ class RolesPage extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <h2 className="text-center">Roles Table</h2>
+      <div className="container mt-5">
+        <h2 className="text-center">Roles</h2>
         <Table 
           tableHeaders={["Id", "Title", "Salary", "Department"]} 
           tableBodyData={this.state.roles}

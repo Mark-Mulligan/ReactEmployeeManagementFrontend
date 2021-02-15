@@ -16,8 +16,8 @@ class AllEmployeesPage extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <h2 className="text-center">Employee Table</h2>
+      <div className="container mt-5">
+        <h2 className="text-center">Employees</h2>
         <Table 
           tableHeaders={["Id", "First", "Last", "Title", "Department", "Salary", "Manager"]} 
           tableBodyData={this.state.employees}
