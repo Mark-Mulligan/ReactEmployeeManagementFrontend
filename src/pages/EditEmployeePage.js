@@ -4,21 +4,47 @@ import { Form, Col, Row, Button } from "react-bootstrap";
 import CustomFormInput from "../components/CustomFormInput";
 import CustomFormSelect from "../components/CustomFormSelect";
 
-class CreateEmployeePage extends React.Component {
+class EditEmployeePage extends React.Component {
   state = {
+    employeeId: this.props.match.params.id,
     firstName: "",
     lastName: "",
-    departmentId: null,
-    roleId: null,
-    managerId: null,
+    departmentId: '',
+    roleId: '',
+    managerId: '',
     departmentValues: [],
     roleValues: [],
     managerValues: [],
   };
 
+  getEmployeeInfo = (id) => {
+    axios.get(`http://localhost:3001/employee/${id}`).then((response) => {
+      if (response.status === 200) {
+        const employeeData = response.data[0];
+        this.setState({
+          firstName: employeeData.first_name,
+          lastName: employeeData.last_name,
+          departmentId: employeeData.department_id,
+          roleId: employeeData.role_id,
+          managerId: employeeData.manager_id
+         });
+         this.getManagerValues();
+         this.getRolesValues(employeeData.department_id);
+      }
+    }, (error) => {
+      console.log(error);
+    });
+  };
+
   checkFormInputs() {
-    const { firstName, lastName, departmentId, roleId, managerId} = this.state;
-    return (firstName !== '' && lastName !== '' && departmentId && roleId && managerId) ? false : true;
+    const { firstName, lastName, departmentId, roleId, managerId } = this.state;
+    return firstName !== "" &&
+      lastName !== "" &&
+      departmentId &&
+      roleId &&
+      managerId
+      ? false
+      : true;
   }
 
   getDepartmentValues = async () => {
@@ -36,27 +62,29 @@ class CreateEmployeePage extends React.Component {
   };
 
   getManagerValues = async () => {
-    const { data } = await axios.get(
-      "http://localhost:3001/employees/name-id"
-    );
+    const { data } = await axios.get(`http://localhost:3001/employees/name-id?excludeid=${this.state.employeeId}`);
     this.setState({ managerValues: data });
   };
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:3001/employees', {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      roleId: this.state.roleId,
-      managerId: this.state.managerId
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        this.props.history.push('/');
-      }
-    }, (error) => {
-      console.log(error);
-    });
+    axios
+      .post("http://localhost:3001/employees", {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        roleId: this.state.roleId,
+        managerId: this.state.managerId,
+      })
+      .then(
+        (response) => {
+          if (response.status === 200) {
+            this.props.history.push("/");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     console.log(this.state);
     console.log("form submitted");
   };
@@ -65,19 +93,19 @@ class CreateEmployeePage extends React.Component {
     const departmentId = event.target.value;
     this.getRolesValues(departmentId);
     this.setState({ departmentId: departmentId });
-    this.setState({ roleId: null });
+    this.setState({ roleId: '' });
   };
 
   handleRoleSelect = (e) => {
-    this.setState({ roleId: e.target.value })
+    this.setState({ roleId: e.target.value });
   };
   handleManagerSelect = (e) => {
-    this.setState({ managerId: e.target.value })
+    this.setState({ managerId: e.target.value });
   };
 
   componentDidMount() {
+    this.getEmployeeInfo(this.state.employeeId);
     this.getDepartmentValues();
-    this.getManagerValues();
   }
 
   renderOptions(dataArr, key1, key2) {
@@ -95,19 +123,17 @@ class CreateEmployeePage extends React.Component {
   render() {
     return (
       <div className="container mt-5">
-        <h2 className="text-center mb-3">Create Employee</h2>
+        <h2 className="text-center mb-3">Edit Employee</h2>
 
         <Form onSubmit={this.handleFormSubmit}>
           <Row>
             <Col xs={12} sm={6}>
-              <CustomFormInput
+              <CustomFormInput 
                 controlId="firstNameInput"
                 label="First Name"
                 type="text"
-                placeholder="First"
-                onInputChange={(e) => {
-                  this.setState({ firstName: e.target.value })
-                }}
+                placeholder={null}
+                onInputChange={(e) => this.setState({ firstName: e.target.value })}
                 value={this.state.firstName}
               />
             </Col>
@@ -116,9 +142,9 @@ class CreateEmployeePage extends React.Component {
                 controlId="lastNameInput"
                 label="Last Name"
                 type="text"
-                placeholder="Last"
+                placeholder={null}
                 onInputChange={(e) => {
-                  this.setState({ lastName: e.target.value })
+                  this.setState({ lastName: e.target.value });
                 }}
                 value={this.state.lastName}
               />
@@ -132,8 +158,8 @@ class CreateEmployeePage extends React.Component {
                 label="Department"
                 type="select"
                 onSelectChange={this.handleDepartmentSelect}
-                value={this.departmentId}
-                placeholder="Choose"
+                value={this.state.departmentId}
+                placeholder={null}
                 options={this.renderOptions(
                   this.state.departmentValues,
                   "id",
@@ -148,10 +174,8 @@ class CreateEmployeePage extends React.Component {
                 label="Role"
                 type="select"
                 onSelectChange={this.handleRoleSelect}
-                value={this.roleId}
-                placeholder={
-                  this.state.departmentId ? "Choose" : "Must select department"
-                }
+                value={this.state.roleId}
+                placeholder={null}
                 options={this.renderOptions(
                   this.state.roleValues,
                   "id",
@@ -166,8 +190,8 @@ class CreateEmployeePage extends React.Component {
                 label="Manager"
                 type="select"
                 onSelectChange={this.handleManagerSelect}
-                value={this.managerId}
-                placeholder={"Choose"}
+                value={this.state.managerId}
+                placeholder={null}
                 options={this.renderOptions(
                   this.state.managerValues,
                   "id",
@@ -177,7 +201,11 @@ class CreateEmployeePage extends React.Component {
             </Col>
           </Row>
 
-          <Button disabled={this.checkFormInputs()} variant="secondary" type="submit">
+          <Button
+            disabled={this.checkFormInputs()}
+            variant="secondary"
+            type="submit"
+          >
             Submit
           </Button>
         </Form>
@@ -186,4 +214,4 @@ class CreateEmployeePage extends React.Component {
   }
 }
 
-export default CreateEmployeePage;
+export default EditEmployeePage;

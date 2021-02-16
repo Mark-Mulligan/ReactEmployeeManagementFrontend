@@ -8,6 +8,7 @@ import Header from './components/Header';
 import CreateEmployeePage from './pages/CreateEmployeePage';
 import CreateRolePage from './pages/CreateRolePage';
 import CreateDepartmentPage from './pages/CreateDepartmentPage';
+import EditEmployeePage from './pages/EditEmployeePage';
 
 const App = () => {
     return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/" exact component={AllEmployeesPage}/>
           <Route path="/employee/:id" exact component={EmployeePage} />
           <Route path="/employees/new" exact component={CreateEmployeePage} />
+          <Route path="/employee/:id/edit" exact component={EditEmployeePage} />
           <Route path="/departments" exact component={DepartmentsPage} />
           <Route path="/departments/new" exact component={CreateDepartmentPage} />
           <Route path="/roles" exact component={RolesPage} />
