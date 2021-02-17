@@ -8,7 +8,7 @@ class CreateEmployeePage extends React.Component {
   state = {
     firstName: "",
     lastName: "",
-    departmentId: null,
+    departmentId: '',
     roleId: '',
     managerId: '',
     departmentValues: [],
@@ -18,7 +18,7 @@ class CreateEmployeePage extends React.Component {
 
   checkFormInputs() {
     const { firstName, lastName, departmentId, roleId, managerId} = this.state;
-    return (firstName !== '' && lastName !== '' && departmentId && roleId && managerId) ? false : true;
+    return (firstName && lastName && departmentId && roleId && managerId) ? false : true;
   }
 
   getDepartmentValues = async () => {
@@ -57,8 +57,6 @@ class CreateEmployeePage extends React.Component {
     }, (error) => {
       console.log(error);
     });
-    console.log(this.state);
-    console.log("form submitted");
   };
 
   handleDepartmentSelect = (event) => {

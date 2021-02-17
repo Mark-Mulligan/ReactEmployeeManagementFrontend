@@ -40,16 +40,12 @@ class EditEmployeePage extends React.Component {
   };
 
   convertManagerId(managerId) {
-    return (!managerId) ? 0 : managerId;
+    return !managerId ? "0" : managerId;
   }
 
   checkFormInputs() {
     const { firstName, lastName, departmentId, roleId, managerId } = this.state;
-    return firstName !== "" &&
-      lastName !== "" &&
-      departmentId &&
-      roleId &&
-      managerId
+    return firstName && lastName && departmentId && roleId && managerId
       ? false
       : true;
   }
@@ -94,8 +90,6 @@ class EditEmployeePage extends React.Component {
           console.log(error);
         }
       );
-    console.log(this.state);
-    console.log("form submitted");
   };
 
   handleDepartmentSelect = (event) => {
@@ -204,7 +198,11 @@ class EditEmployeePage extends React.Component {
                   value={this.state.managerId}
                 >
                   <option value={0}>No Manager</option>
-                  {this.renderOptions(this.state.managerValues, "id", "manager")}
+                  {this.renderOptions(
+                    this.state.managerValues,
+                    "id",
+                    "manager"
+                  )}
                 </Form.Control>
               </Form.Group>
             </Col>
