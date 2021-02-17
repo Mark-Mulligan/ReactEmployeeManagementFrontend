@@ -80,7 +80,7 @@ class EmployeePage extends React.Component {
           >
             Edit
           </Button>
-          <Button variant="secondary">Delete</Button>
+          <Button onClick={this.handleDeleteClick} variant="secondary">Delete</Button>
         </div>
       </div>
     );
