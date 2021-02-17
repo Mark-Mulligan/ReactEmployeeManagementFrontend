@@ -9,8 +9,8 @@ class CreateEmployeePage extends React.Component {
     firstName: "",
     lastName: "",
     departmentId: null,
-    roleId: null,
-    managerId: null,
+    roleId: '',
+    managerId: '',
     departmentValues: [],
     roleValues: [],
     managerValues: [],
@@ -161,19 +161,18 @@ class CreateEmployeePage extends React.Component {
             </Col>
 
             <Col sm={12} md={4}>
-              <CustomFormSelect
-                controlId="managerSelect"
-                label="Manager"
-                type="select"
-                onSelectChange={this.handleManagerSelect}
-                value={this.managerId}
-                placeholder={"Choose"}
-                options={this.renderOptions(
-                  this.state.managerValues,
-                  "id",
-                  "manager"
-                )}
-              />
+            <Form.Group controlId="managerSelect">
+                <Form.Label>Manager</Form.Label>
+                <Form.Control
+                  as="select"
+                  onChange={this.handleManagerSelect}
+                  value={this.state.managerId}
+                >
+                  <option hidden>Choose</option>
+                  <option value={0}>No Manager</option>
+                  {this.renderOptions(this.state.managerValues, "id", "manager")}
+                </Form.Control>
+              </Form.Group>
             </Col>
           </Row>
 

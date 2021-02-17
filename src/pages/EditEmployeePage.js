@@ -9,32 +9,39 @@ class EditEmployeePage extends React.Component {
     employeeId: this.props.match.params.id,
     firstName: "",
     lastName: "",
-    departmentId: '',
-    roleId: '',
-    managerId: '',
+    departmentId: "",
+    roleId: "",
+    managerId: "",
     departmentValues: [],
     roleValues: [],
     managerValues: [],
   };
 
   getEmployeeInfo = (id) => {
-    axios.get(`http://localhost:3001/employee/${id}`).then((response) => {
-      if (response.status === 200) {
-        const employeeData = response.data[0];
-        this.setState({
-          firstName: employeeData.first_name,
-          lastName: employeeData.last_name,
-          departmentId: employeeData.department_id,
-          roleId: employeeData.role_id,
-          managerId: employeeData.manager_id
-         });
-         this.getManagerValues();
-         this.getRolesValues(employeeData.department_id);
+    axios.get(`http://localhost:3001/employee/${id}`).then(
+      (response) => {
+        if (response.status === 200) {
+          const employeeData = response.data[0];
+          this.setState({
+            firstName: employeeData.first_name,
+            lastName: employeeData.last_name,
+            departmentId: employeeData.department_id,
+            roleId: employeeData.role_id,
+            managerId: this.convertManagerId(employeeData.manager_id),
+          });
+          this.getManagerValues();
+          this.getRolesValues(employeeData.department_id);
+        }
+      },
+      (error) => {
+        console.log(error);
       }
-    }, (error) => {
-      console.log(error);
-    });
+    );
   };
+
+  convertManagerId(managerId) {
+    return (!managerId) ? 0 : managerId;
+  }
 
   checkFormInputs() {
     const { firstName, lastName, departmentId, roleId, managerId } = this.state;
@@ -62,14 +69,16 @@ class EditEmployeePage extends React.Component {
   };
 
   getManagerValues = async () => {
-    const { data } = await axios.get(`http://localhost:3001/employees/name-id?excludeid=${this.state.employeeId}`);
+    const { data } = await axios.get(
+      `http://localhost:3001/employees/name-id?excludeid=${this.state.employeeId}`
+    );
     this.setState({ managerValues: data });
   };
 
   handleFormSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:3001/employees", {
+      .put(`http://localhost:3001/employee/${this.state.employeeId}`, {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         roleId: this.state.roleId,
@@ -93,7 +102,7 @@ class EditEmployeePage extends React.Component {
     const departmentId = event.target.value;
     this.getRolesValues(departmentId);
     this.setState({ departmentId: departmentId });
-    this.setState({ roleId: '' });
+    this.setState({ roleId: "" });
   };
 
   handleRoleSelect = (e) => {
@@ -128,12 +137,14 @@ class EditEmployeePage extends React.Component {
         <Form onSubmit={this.handleFormSubmit}>
           <Row>
             <Col xs={12} sm={6}>
-              <CustomFormInput 
+              <CustomFormInput
                 controlId="firstNameInput"
                 label="First Name"
                 type="text"
                 placeholder={null}
-                onInputChange={(e) => this.setState({ firstName: e.target.value })}
+                onInputChange={(e) =>
+                  this.setState({ firstName: e.target.value })
+                }
                 value={this.state.firstName}
               />
             </Col>
@@ -185,19 +196,17 @@ class EditEmployeePage extends React.Component {
             </Col>
 
             <Col sm={12} md={4}>
-              <CustomFormSelect
-                controlId="managerSelect"
-                label="Manager"
-                type="select"
-                onSelectChange={this.handleManagerSelect}
-                value={this.state.managerId}
-                placeholder={null}
-                options={this.renderOptions(
-                  this.state.managerValues,
-                  "id",
-                  "manager"
-                )}
-              />
+              <Form.Group controlId="managerSelect">
+                <Form.Label>Manager</Form.Label>
+                <Form.Control
+                  as="select"
+                  onChange={this.handleManagerSelect}
+                  value={this.state.managerId}
+                >
+                  <option value={0}>No Manager</option>
+                  {this.renderOptions(this.state.managerValues, "id", "manager")}
+                </Form.Control>
+              </Form.Group>
             </Col>
           </Row>
 
