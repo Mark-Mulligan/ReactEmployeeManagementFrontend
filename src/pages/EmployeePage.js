@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import DeleteModal from "../components/DeleteModal";
 import "./EmployeePage.css";
 
 class EmployeePage extends React.Component {
@@ -80,7 +81,10 @@ class EmployeePage extends React.Component {
           >
             Edit
           </Button>
-          <Button onClick={this.handleDeleteClick} variant="secondary">Delete</Button>
+          <DeleteModal
+            modalMessage="Are you sure you want to delete this employee?"
+            handleDeleteClick={this.handleDeleteClick}
+          />
         </div>
       </div>
     );
