@@ -50,7 +50,7 @@ class EmployeePage extends React.Component {
       <table className="table table-responsive single-table">
         <tbody className="table-bordered">
           {this.renderEmployeeProfileData(
-            ["Name:", "Employee Id:", "Title", "Department:", "Salary:"],
+            ["Name:", "Employee Id:", "Title:", "Department:", "Salary:"],
             [
               `${employee.first_name} ${employee.last_name}`,
               employee.id,
