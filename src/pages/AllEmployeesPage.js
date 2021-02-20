@@ -1,6 +1,33 @@
 import React from "react";
 import axios from "axios";
-import Table from '../components/Table';
+import { DataGrid } from "@material-ui/data-grid";
+import "./AllEmployeesPage.css";
+
+const columns = [
+  { field: "id", headerName: "ID", width: 70 },
+  { field: "first_name", headerName: "First" },
+  { field: "last_name", headerName: "Last" },
+  {
+    field: "title",
+    headerName: "Title",
+    width: 150,
+  },
+  {
+    field: "department",
+    headerName: "Department",
+    width: 150,
+  },
+  {
+    field: "salary",
+    headerName: "Salary",
+    type: "number",
+  },
+  {
+    field: "manager",
+    headerName: "Manager",
+    width: 150,
+  },
+];
 
 class AllEmployeesPage extends React.Component {
   state = { employees: [] };
@@ -16,15 +43,19 @@ class AllEmployeesPage extends React.Component {
 
   render() {
     return (
-      <div className="container mt-5">
+      <div className="mt-5">
         <h2 className="text-center">Employees</h2>
-        <Table 
-          tableHeaders={["Id", "First", "Last", "Title", "Department", "Salary", "Manager"]} 
-          tableBodyData={this.state.employees}
-          tableBodyKeys={["id", "first_name", "last_name", "title", "department", "salary", "manager"]}
-          history={this.props.history}
-          baseURL="/employee"
+        <div className="table-container">
+          <DataGrid
+            rowHeight={30}
+            rows={this.state.employees}
+            columns={columns}
+            disableSelectionOnClick={true}
+            onRowClick={(data) => {
+              this.props.history.push(`/employee/${data.row.id}`);
+            }}
           />
+        </div>
       </div>
     );
   }

@@ -1,0 +1,11 @@
+.table-container {
+  height: 500px;
+  width: 100%;
+  padding: 10px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.MuiDataGrid-row:hover {
+  cursor: pointer;
+}
