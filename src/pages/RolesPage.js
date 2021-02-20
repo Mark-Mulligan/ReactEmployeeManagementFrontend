@@ -1,8 +1,20 @@
-import React from 'react';
-import axios from 'axios';
-import Table from '../components/Table';
+import React from "react";
+import axios from "axios";
+import { DataGrid } from "@material-ui/data-grid";
+import './RolesPage.css';
 
-class RolesPage extends React.Component {
+const columns = [
+  { field: "id", headerName: "Id", width: 70 },
+  { field: "title", headerName: "Title", width: 160 },
+  { field: "salary", headerName: "Salary", width: 130, type: "number" },
+  {
+    field: "department",
+    headerName: "Department",
+    width: 160,
+  },
+];
+
+class RolesPage2 extends React.Component {
   state = { roles: []}
 
   getRoles = async () => {
@@ -16,18 +28,23 @@ class RolesPage extends React.Component {
 
   render() {
     return (
-      <div className="container mt-5">
+      <div className="mt-5">
         <h2 className="text-center">Roles</h2>
-        <Table 
-          tableHeaders={["Id", "Title", "Salary", "Department"]} 
-          tableBodyData={this.state.roles}
-          tableBodyKeys={["id", "title", "salary", "department"]}
-          history={this.props.history}
-          baseURL="/role"
+        <div className="roles-table-container">
+          <DataGrid
+            autoHeight={true}
+            rowHeight={30}
+            rows={this.state.roles}
+            columns={columns}
+            disableSelectionOnClick={true}
+            onRowClick={(data) => {
+              this.props.history.push(`/role/${data.row.id}`);
+            }}
           />
+        </div>
       </div>
     );
   }
 }
 
-export default RolesPage;
+export default RolesPage2;

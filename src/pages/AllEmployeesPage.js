@@ -45,8 +45,9 @@ class AllEmployeesPage extends React.Component {
     return (
       <div className="mt-5">
         <h2 className="text-center">Employees</h2>
-        <div className="table-container">
+        <div className="employee-table-container">
           <DataGrid
+            autoHeight={true}
             rowHeight={30}
             rows={this.state.employees}
             columns={columns}

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { DataGrid } from "@material-ui/data-grid";
+import './DepartmentsPage.css';
 
 const columns = [
   { field: "id", headerName: "Id", width: 70 },
@@ -20,7 +21,7 @@ const columns = [
   },
 ];
 
-class DepartmentsPage2 extends React.Component {
+class DepartmentsPage extends React.Component {
   state = { departments: [] };
 
   getDepartments = async () => {
@@ -37,8 +38,9 @@ class DepartmentsPage2 extends React.Component {
     return (
       <div className="mt-5">
         <h2 className="text-center">Departments</h2>
-        <div className="table-container">
+        <div className="departments-table-container">
           <DataGrid
+            autoHeight={true}
             rowHeight={30}
             rows={this.state.departments}
             columns={columns}
@@ -53,4 +55,4 @@ class DepartmentsPage2 extends React.Component {
   }
 }
 
-export default DepartmentsPage2;
+export default DepartmentsPage;
