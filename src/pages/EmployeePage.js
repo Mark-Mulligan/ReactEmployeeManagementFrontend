@@ -3,7 +3,16 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal";
-import "./EmployeePage.css";
+import VerticalTable from "../components/VerticalTable";
+
+const headerAndKeys = [
+  {header: 'First Name:', key:'first_name'},
+  {header: 'Last Name:', key:'last_name'},
+  {header: 'Employee Id:', key: 'id'},
+  {header: 'Title:', key: 'title'},
+  {header: 'Department:', key: 'department'},
+  {header: 'Salary:', key: 'salary'},
+]
 
 class EmployeePage extends React.Component {
   state = { employee: null, employeeId: this.props.match.params.id };
@@ -34,44 +43,11 @@ class EmployeePage extends React.Component {
     this.getEmployee();
   }
 
-  renderEmployeeProfileData(colTitlesArr, colDataArr) {
-    return colTitlesArr.map((title, index) => {
-      return (
-        <tr key={index}>
-          <th className="text-right">{title}</th>
-          <td>{colDataArr[index]}</td>
-        </tr>
-      );
-    });
-  }
-
-  renderEmployeeProfileTable(employee) {
-    return (
-      <table className="table table-responsive single-table">
-        <tbody className="table-bordered">
-          {this.renderEmployeeProfileData(
-            ["Name:", "Employee Id:", "Title:", "Department:", "Salary:"],
-            [
-              `${employee.first_name} ${employee.last_name}`,
-              employee.id,
-              employee.title,
-              employee.department,
-              employee.salary,
-            ]
-          )}
-        </tbody>
-      </table>
-    );
-  }
-
-  renderEmployee() {
-    if (this.state.employee === null) {
-      return null;
-    }
+  render() {
     return (
       <div className="container mt-5 text-center">
         <h2>Employee Profile</h2>
-        {this.renderEmployeeProfileTable(this.state.employee)}
+        <VerticalTable headersAndKeys={headerAndKeys} tableData={this.state.employee} />
         <div>
           <Button
             as={Link}
@@ -87,11 +63,7 @@ class EmployeePage extends React.Component {
           />
         </div>
       </div>
-    );
-  }
-
-  render() {
-    return this.renderEmployee();
+    )
   }
 }
 

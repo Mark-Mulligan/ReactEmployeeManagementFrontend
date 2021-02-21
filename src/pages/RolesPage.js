@@ -14,7 +14,7 @@ const columns = [
   },
 ];
 
-class RolesPage2 extends React.Component {
+class RolesPage extends React.Component {
   state = { roles: []}
 
   getRoles = async () => {
@@ -47,4 +47,4 @@ class RolesPage2 extends React.Component {
   }
 }
 
-export default RolesPage2;
+export default RolesPage;
