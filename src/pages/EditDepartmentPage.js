@@ -31,9 +31,23 @@ class EditDepartmentPage extends React.Component {
   handleFormSubmit = (event, departmentName) => {
     event.preventDefault();
     axios
-      .put(`http://localhost:3001/employee/${this.state.employeeId}`, {
+      .put(`http://localhost:3001/department/${this.state.departmentId}`, {
         departmentName: departmentName,
       })
+      .then(
+        (response) => {
+          if (response.status === 200) {
+            this.props.history.push("/departments");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  handleDeleteClick = () => {
+    axios.delete(`http://localhost:3001/department/${this.state.departmentId}`)
       .then(
         (response) => {
           if (response.status === 200) {

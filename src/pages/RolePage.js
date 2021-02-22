@@ -1,6 +1,9 @@
 import React from "react";
 import axios from "axios";
 import VerticalTable from '../components/VerticalTable';
+import { Button } from 'react-bootstrap';
+import { Link } from "react-router-dom";
+import DeleteModal from '../components/DeleteModal';
 
 const headerAndKeys = [
   {header: 'Title:', key:'title'},
@@ -22,7 +25,7 @@ class RolePage extends React.Component {
   };
 
   handleDeleteClick = () => {
-    axios.delete(`http://localhost:3001/employee/${this.state.roleId}`).then(
+    axios.delete(`http://localhost:3001/role/${this.state.roleId}`).then(
       (response) => {
         if (response.status === 200) {
           this.props.history.push("/roles");
@@ -44,6 +47,20 @@ class RolePage extends React.Component {
       <div className="container mt-5">
         <h2 className="text-center">Role Profile</h2>
         <VerticalTable headersAndKeys={headerAndKeys} tableData={this.state.role} />
+        <div className="text-center">
+          <Button
+            as={Link}
+            to={`${this.state.roleId}/edit`}
+            className="mr-4"
+            variant="secondary"
+          >
+            Edit
+          </Button>
+          <DeleteModal
+            modalMessage="Are you sure you want to delete this Department?"
+            handleDeleteClick={this.handleDeleteClick}
+          />
+          </div>
       </div>
     );
   }

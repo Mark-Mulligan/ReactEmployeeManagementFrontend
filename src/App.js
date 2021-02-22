@@ -12,6 +12,7 @@ import CreateDepartmentPage from './pages/CreateDepartmentPage';
 import EditEmployeePage from './pages/EditEmployeePage';
 import RolePage from './pages/RolePage';
 import EditDepartmentPage from './pages/EditDepartmentPage';
+import EditRolePage from './pages/EditRolePage';
 
 const App = () => {
     return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/role/:id" exact component={RolePage} />
           <Route path="/roles" exact component={RolesPage} />
           <Route path="/roles/new" exact component={CreateRolePage} />
+          <Route path="/role/:id/edit" exact component={EditRolePage} />
         </BrowserRouter>
       </div>
     )
