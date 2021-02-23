@@ -13,6 +13,7 @@ import EditEmployeePage from './pages/EditEmployeePage';
 import RolePage from './pages/RolePage';
 import EditDepartmentPage from './pages/EditDepartmentPage';
 import EditRolePage from './pages/EditRolePage';
+import AnalyticsPage from './pages/AnalyticsPage';
 
 const App = () => {
     return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/roles" exact component={RolesPage} />
           <Route path="/roles/new" exact component={CreateRolePage} />
           <Route path="/role/:id/edit" exact component={EditRolePage} />
+          <Route path="/analytics" exact component={AnalyticsPage} />
         </BrowserRouter>
       </div>
     )
