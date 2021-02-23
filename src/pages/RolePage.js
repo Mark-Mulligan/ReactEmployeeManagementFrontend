@@ -57,7 +57,7 @@ class RolePage extends React.Component {
             Edit
           </Button>
           <DeleteModal
-            modalMessage="Are you sure you want to delete this Department?"
+            modalMessage="Warning! Deleting this role will also delete all the employees that have this role.  Are you sure you want to delete it?"
             handleDeleteClick={this.handleDeleteClick}
           />
           </div>
