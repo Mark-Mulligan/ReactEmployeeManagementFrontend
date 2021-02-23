@@ -27,7 +27,7 @@ class DepartmentPage extends React.Component {
     axios.delete(`http://localhost:3001/department/${this.state.departmentId}`).then(
       (response) => {
         if (response.status === 200) {
-          this.props.history.push("/roles");
+          this.props.history.push("/departments");
         }
       },
       (error) => {
