@@ -20,7 +20,7 @@ const App = () => {
       <div>
         <BrowserRouter>
           <Route path="/" component={Header} />
-          <Route path="/" exact component={AllEmployeesPage}/>
+          <Route path="/employees" exact component={AllEmployeesPage}/>
           <Route path="/employee/:id" exact component={EmployeePage} />
           <Route path="/employees/new" exact component={CreateEmployeePage} />
           <Route path="/employee/:id/edit" exact component={EditEmployeePage} />
@@ -32,7 +32,7 @@ const App = () => {
           <Route path="/roles" exact component={RolesPage} />
           <Route path="/roles/new" exact component={CreateRolePage} />
           <Route path="/role/:id/edit" exact component={EditRolePage} />
-          <Route path="/analytics" exact component={AnalyticsPage} />
+          <Route path="/" exact component={AnalyticsPage} />
         </BrowserRouter>
       </div>
     )

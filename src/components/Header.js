@@ -14,7 +14,7 @@ class Header extends React.Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <NavDropdown title="Employees" id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/" className="custom-link">View All</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/employees" className="custom-link">View All</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/employees/new" className="custom-link">Add Employee</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Departments" id="basic-nav-dropdown">
