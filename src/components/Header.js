@@ -7,7 +7,7 @@ import './Header.css';
 class Header extends React.Component {
   render() {
     return (
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="dark" variant="dark" expand="lg">
         
         <LinkContainer to="/"><Navbar.Brand>Company Name</Navbar.Brand></LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

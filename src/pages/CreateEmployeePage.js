@@ -31,6 +31,7 @@ class CreateEmployeePage extends React.Component {
         <h2 className="text-center mb-3">Create Employee</h2>
         <EmployeeForm
           handleFormSubmit={this.handleCreateFormSubmit}
+          history={this.props.history}
         />
       </div>
     );

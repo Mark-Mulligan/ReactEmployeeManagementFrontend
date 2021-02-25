@@ -106,6 +106,7 @@ class RoleForm extends React.Component {
               <TextField
                 id="roleSalaryInput"
                 label="Salary"
+                type="number"
                 variant="outlined"
                 value={this.state.salary}
                 required={true}
@@ -115,7 +116,7 @@ class RoleForm extends React.Component {
           </Col>
           <Col md={4} sm={12}>
             <FormControl required variant="outlined" fullWidth={true}>
-              <InputLabel id="demo-simple-select-outlined-label">
+              <InputLabel id="departmentSelectLabel">
                 Department
               </InputLabel>
               <Select

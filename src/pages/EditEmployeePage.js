@@ -33,6 +33,7 @@ class EditEmployeePage extends React.Component {
         <EmployeeForm
           employeeId={this.state.employeeId}
           handleFormSubmit={this.handleEditFormSubmit}
+          history={this.props.history}
         />
       </div>
     );

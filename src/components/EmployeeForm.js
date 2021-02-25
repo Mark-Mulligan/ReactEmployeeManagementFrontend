@@ -1,8 +1,15 @@
 import React from "react";
 import axios from "axios";
 import { Form, Col, Row, Button } from "react-bootstrap";
-import CustomFormInput from "../components/CustomFormInput";
-import CustomFormSelect from "../components/CustomFormSelect";
+import {
+  TextField,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
+import DeleteModal from "./DeleteModal";
 
 class EmployeeForm extends React.Component {
   state = {
@@ -42,13 +49,6 @@ class EmployeeForm extends React.Component {
     return !managerId ? "0" : managerId;
   }
 
-  checkFormInputs() {
-    const { firstName, lastName, departmentId, roleId, managerId } = this.state;
-    return firstName && lastName && departmentId && roleId && managerId
-      ? false
-      : true;
-  }
-
   getDepartmentValues = async () => {
     const { data } = await axios.get(
       "http://localhost:3001/departments/name-id"
@@ -64,7 +64,8 @@ class EmployeeForm extends React.Component {
   };
 
   getManagerValues = async () => {
-    const { data } = await axios.get("http://localhost:3001/employees/name-id");
+    const excludeEmployee = this.props.employeeId ? `?excludeid=${this.props.employeeId}` : "";
+    const { data } = await axios.get(`http://localhost:3001/employees/name-id${excludeEmployee}`);
     this.setState({ managerValues: data });
   };
 
@@ -72,7 +73,21 @@ class EmployeeForm extends React.Component {
     const departmentId = event.target.value;
     this.getRolesValues(departmentId);
     this.setState({ departmentId: departmentId });
-    this.setState({ roleId: '' });
+    this.setState({ roleId: "" });
+  };
+
+  handleDeleteClick = () => {
+    axios.delete(`http://localhost:3001/employee/${this.props.employeeId}`)
+      .then(
+        (response) => {
+          if (response.status === 200) {
+            this.props.history.push("/employees");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
 
   componentDidMount() {
@@ -89,16 +104,16 @@ class EmployeeForm extends React.Component {
     return this.state.departmentId ? "Choose" : "Must select department";
   }
 
-  renderOptions(dataArr, key1, key2) {
+  renderMenuItems(dataArr, key1, key2) {
     if (dataArr.length > 0) {
       return dataArr.map((data) => {
         return (
-          <option key={data[key1]} value={data[key1]}>
+          <MenuItem key={data[key1]} value={data[key1]}>
             {data[key2]}
-          </option>
+          </MenuItem>
         );
       });
-    }
+    } 
   }
 
   render() {
@@ -115,86 +130,110 @@ class EmployeeForm extends React.Component {
         }
       >
         <Row>
-          <Col xs={12} sm={6}>
-            <CustomFormInput
-              controlId="firstNameInput"
-              label="First Name"
-              type="text"
-              placeholder={this.props.employeeId ? null : "First"}
-              onInputChange={(e) =>
-                this.setState({ firstName: e.target.value })
-              }
-              value={this.state.firstName}
-            />
+          <Col className="mb-4" xs={12} sm={6}>
+            <FormControl fullWidth={true}>
+              <TextField
+                id="firstNameInput"
+                label="First Name"
+                variant="outlined"
+                value={this.state.firstName}
+                required={true}
+                onChange={(e) => this.setState({ firstName: e.target.value })}
+              />
+            </FormControl>
           </Col>
-          <Col xs={12} sm={6}>
-            <CustomFormInput
-              controlId="lastNameInput"
-              label="Last Name"
-              type="text"
-              placeholder={this.props.employeeId ? null : "Last"}
-              onInputChange={(e) => {
-                this.setState({ lastName: e.target.value });
-              }}
-              value={this.state.lastName}
-            />
+          <Col className="mb-4" xs={12} sm={6}>
+            <FormControl fullWidth={true}>
+              <TextField
+                id="lastNameInput"
+                label="Last Name"
+                variant="outlined"
+                value={this.state.lastName}
+                required={true}
+                onChange={(e) => this.setState({ lastName: e.target.value })}
+              />
+            </FormControl>
           </Col>
         </Row>
 
         <Row>
+          <Col className="mb-4" sm={12} md={4}>
+            {this.state.departmentValues.length > 0 && (
+              <FormControl required variant="outlined" fullWidth={true}>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Department
+                </InputLabel>
+                <Select
+                  defaultValue=""
+                  labelId="departmentSelectLabel"
+                  id="departmentSelect"
+                  value={this.state.departmentId}
+                  onChange={this.handleDepartmentSelect}
+                  label="Department"
+                >
+                  {this.renderMenuItems(
+                    this.state.departmentValues,
+                    "id",
+                    "name"
+                  )}
+                </Select>
+              </FormControl>
+            )}
+          </Col>
           <Col sm={12} md={4}>
-            <CustomFormSelect
-              controlId="departmentSelect"
-              label="Department"
-              type="select"
-              onSelectChange={this.handleDepartmentSelect}
-              value={this.state.departmentId}
-              placeholder={this.props.employeeId ? null : "Choose"}
-              options={this.renderOptions(
-                this.state.departmentValues,
-                "id",
-                "name"
-              )}
-            />
+            {this.state.roleValues.length > 0 && (
+              <FormControl required variant="outlined" fullWidth={true}>
+                <InputLabel id="roleSelectLabel">Role</InputLabel>
+                <Select
+                  defaultValue=""
+                  labelId="roleSelectLabel"
+                  id="roleSelect"
+                  value={this.state.roleId}
+                  onChange={(e) => this.setState({ roleId: e.target.value })}
+                  label="Role"
+                >
+                  {this.renderMenuItems(this.state.roleValues, "id", "title")}
+                </Select>
+              </FormControl>
+            )}
           </Col>
 
           <Col sm={12} md={4}>
-            <CustomFormSelect
-              controlId="roleSelect"
-              label="Role"
-              type="select"
-              onSelectChange={(e) => this.setState({ roleId: e.target.value })}
-              value={this.state.roleId}
-              placeholder={
-                this.props.employeeId ? null : this.renderRolePlacholder()
-              }
-              options={this.renderOptions(this.state.roleValues, "id", "title")}
-            />
-          </Col>
-
-          <Col sm={12} md={4}>
-            <Form.Group controlId="managerSelect">
-              <Form.Label>Manager</Form.Label>
-              <Form.Control
-                as="select"
-                onChange={(e) => this.setState({ managerId: e.target.value })}
+            {this.state.managerValues.length > 0 && this.state.departmentId && (
+              <FormControl required variant="outlined" fullWidth={true}>
+              <InputLabel id="managerSelectLabel">Manager</InputLabel>
+              <Select
+                defaultValue=""
+                labelId="managerSelectLabel"
+                id="managerSelect"
                 value={this.state.managerId}
+                onChange={(e) => this.setState({ managerId: e.target.value })}
+                label="Manager"
               >
-                {this.props.employeId ? null : <option hidden>Choose</option>}
-                <option value={0}>No Manager</option>
-                {this.renderOptions(this.state.managerValues, "id", "manager")}
-              </Form.Control>
-            </Form.Group>
+                <MenuItem value={0}>No Manager</MenuItem>
+                {this.renderMenuItems(
+                  this.state.managerValues,
+                  "id",
+                  "manager"
+                )}
+              </Select>
+            </FormControl>
+            )}
           </Col>
         </Row>
 
-        <Button
-          disabled={this.checkFormInputs()}
-          variant="secondary"
-          type="submit"
-        >
-          Submit
-        </Button>
+        <Button className="mr-2" variant="secondary" type="submit">
+            {this.props.employeeId ? "Submit Changes" : "Create Employee"}
+            </Button>
+            {this.props.employeeId ? (
+            <DeleteModal
+              modalMessage="Are you sure you want to delete this employee?"
+              handleDeleteClick={this.handleDeleteClick}
+            />
+          ) : null}
+          <Button as={Link} to={"/employees"} variant="secondary">
+            Cancel
+          </Button>
       </Form>
     );
   }

@@ -32,6 +32,7 @@ class RolesPage extends React.Component {
         <h2 className="text-center">Roles</h2>
         <div className="roles-table-container">
           <DataGrid
+            style={{ color: 'rgba(189,189,189,255'}}
             autoHeight={true}
             rowHeight={30}
             rows={this.state.roles}

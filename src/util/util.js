@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
 const Util = {
-  formatDataForChart: (inputData, labelKey, dataKey, barChartLabel) => {
+  formatDataForChart: function(inputData, labelKey, dataKey, barChartLabel) {
     const formattedData = {
       labels: [],
       datasets: [
@@ -27,7 +27,7 @@ const Util = {
     return formattedData;
   },
 
-  formatOptionsForMoney: function (chartTitle, fontSize, inputData, labelKey, dataKey) {
+  optionsForDepUtilChart: function (inputData, labelKey, dataKey) {
     const chartData = [];
     const chartLabels = [];
     inputData.forEach(item => {
@@ -37,9 +37,9 @@ const Util = {
 
     return {
       title: {
-        fontSize: fontSize,
+        fontSize: 24,
         display: true,
-        text: chartTitle,
+        text: "Department Utilization",
       },
       maintainAspectRatio: false,
       tooltips: {
@@ -53,16 +53,57 @@ const Util = {
     };
   },
 
-  formatChartOptions: function (chartTitle, fontSize) {
+  optionsForSalaryRangeChart: function (inputData, labelKey, dataKey) {
+    const chartData = [];
+    const chartLabels = [];
+    inputData.forEach(item => {
+      chartData.push(item[dataKey]);
+      chartLabels.push(item[labelKey])
+    })
+
     return {
       title: {
-        fontSize: fontSize,
+        fontSize: 24,
         display: true,
-        text: chartTitle,
+        text: "Salary",
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          gridLines: {
+            color: 'rgba(220,220,215,255)'
+          },
+        }],
+        yAxes: [{
+          display: true,
+          gridLines: {
+            color: 'rgba(220,220,215,255)'
+          },
+        }]
       },
       maintainAspectRatio: false,
       tooltips: {
-        bodyFontSize: 20,
+        bodyFontSize: 16,
+        titleFontSize: 16,
+        callbacks: {
+          label: (tooltipItem) => {
+            return `$${chartData[tooltipItem.index].toLocaleString()}`;
+          },
+        },
+      },
+    };
+  },
+
+  optionsEmployeesPerDeptChart: function () {
+    return {
+      title: {
+        fontSize: 24,
+        display: true,
+        text: "Employees Per Department",
+      },
+      maintainAspectRatio: false,
+      tooltips: {
+        bodyFontSize: 16,
       },
     };
   },

@@ -3,6 +3,12 @@ import axios from "axios";
 import util from "../util/util";
 import { Row, Col } from "react-bootstrap";
 import { Doughnut, Bar } from "react-chartjs-2";
+import { defaults } from 'react-chartjs-2';
+
+defaults.global.defaultFontColor = 'rgba(220,220,215,255)';
+defaults.global.elements.line.borderColor = 'rgba(220,220,215,255)';
+console.log(defaults.global.elements.line);
+//defaults.global.gridLines.color = 'rgba(220,220,215,255)';
 
 class AnalyticsPage extends React.Component {
   state = { departments: [], roleData: [] };
@@ -38,7 +44,7 @@ class AnalyticsPage extends React.Component {
                 )}
                 height={400}
                 width={400}
-                options={util.formatOptionsForMoney("Department Utilization", 20, this.state.departments, "name", "departmentUtilization")}
+                options={util.optionsForDepUtilChart(this.state.departments, "name", "departmentUtilization")}
               />
             )}
           </Col>
@@ -52,10 +58,7 @@ class AnalyticsPage extends React.Component {
                 )}
                 height={400}
                 width={400}
-                options={util.formatChartOptions(
-                  "Employees Per Department",
-                  20
-                )}
+                options={util.optionsEmployeesPerDeptChart()}
               />
             )}
           </Col>
@@ -66,7 +69,7 @@ class AnalyticsPage extends React.Component {
             <Bar
               data={util.formatDataForChart(this.state.roleData, 'title', 'salary', 'Salary ($)')}
               height={400}
-              options={util.formatChartOptions("Salary Ranges", 20)}
+              options={util.optionsForSalaryRangeChart(this.state.roleData, 'title', 'salary')}
             />
           )}
           </Col>
