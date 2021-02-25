@@ -7,7 +7,6 @@ import { defaults } from 'react-chartjs-2';
 
 defaults.global.defaultFontColor = 'rgba(220,220,215,255)';
 defaults.global.elements.line.borderColor = 'rgba(220,220,215,255)';
-console.log(defaults.global.elements.line);
 //defaults.global.gridLines.color = 'rgba(220,220,215,255)';
 
 class AnalyticsPage extends React.Component {
