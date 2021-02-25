@@ -21,11 +21,13 @@ const columns = [
     field: "salary",
     headerName: "Salary",
     type: "number",
+    valueFormatter: ({ value }) => `$${value.toLocaleString()}`
   },
   {
     field: "manager",
     headerName: "Manager",
     width: 150,
+    valueFormatter: ({ value }) => !value ? 'N/A' : value
   },
 ];
 
@@ -49,6 +51,7 @@ class AllEmployeesPage extends React.Component {
           <DataGrid
             autoHeight={true}
             rowHeight={30}
+            scrollbarSize={20}
             rows={this.state.employees}
             columns={columns}
             disableSelectionOnClick={true}

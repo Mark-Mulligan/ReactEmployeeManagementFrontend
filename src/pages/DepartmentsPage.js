@@ -6,18 +6,19 @@ import './DepartmentsPage.css';
 const columns = [
   { field: "id", headerName: "Id", width: 70 },
   { field: "name", headerName: "Name", width: 160 },
-  { field: "employees", headerName: "Employees", width: 130, type: "number" },
+  { field: "employees", headerName: "Total Employees", width: 160, type: "number" },
   {
     field: "roles",
-    headerName: "Positions",
+    headerName: "Total Roles",
     width: 130,
     type: "number",
   },
   {
     field: "departmentUtilization",
     headerName: "Total Utilization",
-    width: 150,
+    width: 160,
     type: "number",
+    valueFormatter: ({ value }) => `$${value.toLocaleString()}`
   },
 ];
 
@@ -41,6 +42,7 @@ class DepartmentsPage extends React.Component {
         <div className="departments-table-container">
           <DataGrid
             autoHeight={true}
+            scrollbarSize={20}
             rowHeight={30}
             rows={this.state.departments}
             columns={columns}

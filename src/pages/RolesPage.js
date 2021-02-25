@@ -6,13 +6,18 @@ import "./RolesPage.css";
 
 const columns = [
   { field: "id", headerName: "Id", width: 70 },
-  { field: "title", headerName: "Title", width: 160 },
-  { field: "salary", headerName: "Salary", width: 130, type: "number" },
+  { field: "title", headerName: "Title", width: 170 },
   {
     field: "department",
     headerName: "Department",
-    width: 160,
+    width: 170,
   },
+  { field: "salary", 
+    headerName: "Salary", 
+    width: 140, 
+    type: "number",
+    valueFormatter: ({ value }) => `$${value.toLocaleString()}`
+   },
 ];
 
 class RolesPage extends React.Component {
@@ -58,6 +63,7 @@ class RolesPage extends React.Component {
             <DataGrid
               style={{ color: "rgba(189,189,189,255" }}
               autoHeight={true}
+              scrollbarSize={20}
               rowHeight={30}
               rows={this.state.roles}
               columns={columns}
