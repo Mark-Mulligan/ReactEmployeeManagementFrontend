@@ -65,7 +65,7 @@ const Util = {
       title: {
         fontSize: 24,
         display: true,
-        text: "Salary",
+        text: "Employee Salaries",
       },
       scales: {
         xAxes: [{
@@ -99,7 +99,7 @@ const Util = {
       title: {
         fontSize: 24,
         display: true,
-        text: "Employees Per Department",
+        text: "Employee Distribution",
       },
       maintainAspectRatio: false,
       tooltips: {
