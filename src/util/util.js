@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
 const Util = {
-  formatDataForChart: function(inputData, labelKey, dataKey, barChartLabel) {
+  formatDataForChart: function (inputData, labelKey, dataKey, barChartLabel) {
     const formattedData = {
       labels: [],
       datasets: [
@@ -30,10 +30,10 @@ const Util = {
   optionsForDepUtilChart: function (inputData, labelKey, dataKey) {
     const chartData = [];
     const chartLabels = [];
-    inputData.forEach(item => {
+    inputData.forEach((item) => {
       chartData.push(item[dataKey]);
-      chartLabels.push(item[labelKey])
-    })
+      chartLabels.push(item[labelKey]);
+    });
 
     return {
       title: {
@@ -46,7 +46,9 @@ const Util = {
         bodyFontSize: 16,
         callbacks: {
           label: (tooltipItem) => {
-            return `${chartLabels[tooltipItem.index]}: $${chartData[tooltipItem.index].toLocaleString()}`;
+            return `${chartLabels[tooltipItem.index]}: $${chartData[
+              tooltipItem.index
+            ].toLocaleString()}`;
           },
         },
       },
@@ -56,10 +58,10 @@ const Util = {
   optionsForSalaryRangeChart: function (inputData, labelKey, dataKey) {
     const chartData = [];
     const chartLabels = [];
-    inputData.forEach(item => {
+    inputData.forEach((item) => {
       chartData.push(item[dataKey]);
-      chartLabels.push(item[labelKey])
-    })
+      chartLabels.push(item[labelKey]);
+    });
 
     return {
       title: {
@@ -68,18 +70,25 @@ const Util = {
         text: "Employee Salaries",
       },
       scales: {
-        xAxes: [{
-          display: true,
-          gridLines: {
-            color: 'rgba(220,220,215,255)'
+        xAxes: [
+          {
+            display: true,
+            gridLines: {
+              color: "rgba(220,220,215,255)",
+            },
           },
-        }],
-        yAxes: [{
-          display: true,
-          gridLines: {
-            color: 'rgba(220,220,215,255)'
+        ],
+        yAxes: [
+          {
+            display: true,
+            gridLines: {
+              color: "rgba(220,220,215,255)",
+            },
+            ticks: {
+              beginAtZero: true,
+            },
           },
-        }]
+        ],
       },
       maintainAspectRatio: false,
       tooltips: {
@@ -90,6 +99,46 @@ const Util = {
             return `$${chartData[tooltipItem.index].toLocaleString()}`;
           },
         },
+      },
+    };
+  },
+
+  optionsForEmployeesHiredChart: function () {
+    return {
+      title: {
+        fontSize: 24,
+        display: true,
+        text: "Hiring Over Time",
+      },
+      scales: {
+        xAxes: [
+          {
+            display: true,
+            gridLines: {
+              color: "rgba(220,220,215,255)",
+            },
+            ticks: {
+              stepSize: 1
+            },
+          },
+        ],
+        yAxes: [
+          {
+            display: true,
+            gridLines: {
+              color: "rgba(220,220,215,255)",
+            },
+            ticks: {
+              beginAtZero: true,
+              stepSize: 1
+            },
+          },
+        ],
+      },
+      maintainAspectRatio: false,
+      tooltips: {
+        bodyFontSize: 16,
+        titleFontSize: 16,
       },
     };
   },

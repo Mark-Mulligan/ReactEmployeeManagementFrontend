@@ -3,18 +3,26 @@ import axios from "axios";
 import util from "../util/util";
 import { Row, Col } from "react-bootstrap";
 import { Doughnut, Bar } from "react-chartjs-2";
-import { defaults } from 'react-chartjs-2';
+import { defaults } from "react-chartjs-2";
 
-defaults.global.defaultFontColor = 'rgba(220,220,215,255)';
-defaults.global.elements.line.borderColor = 'rgba(220,220,215,255)';
+defaults.global.defaultFontColor = "rgba(220,220,215,255)";
+defaults.global.elements.line.borderColor = "rgba(220,220,215,255)";
 //defaults.global.gridLines.color = 'rgba(220,220,215,255)';
 
 class AnalyticsPage extends React.Component {
-  state = { departments: [], roleData: [] };
+  state = { departments: [], roleData: [], employeeData: [] };
 
   getDepartments = async () => {
     const { data } = await axios.get("http://localhost:3001/departments");
     this.setState({ departments: data });
+  };
+
+  getEmployeeData = async () => {
+    const { data } = await axios.get(
+      "http://localhost:3001/api/employees/chartdata"
+    );
+    console.log(data);
+    this.setState({ employeeData: data });
   };
 
   getRoleData = async () => {
@@ -27,6 +35,7 @@ class AnalyticsPage extends React.Component {
   componentDidMount() {
     this.getDepartments();
     this.getRoleData();
+    this.getEmployeeData();
   }
 
   render() {
@@ -43,7 +52,11 @@ class AnalyticsPage extends React.Component {
                 )}
                 height={400}
                 width={400}
-                options={util.optionsForDepUtilChart(this.state.departments, "name", "departmentUtilization")}
+                options={util.optionsForDepUtilChart(
+                  this.state.departments,
+                  "name",
+                  "departmentUtilization"
+                )}
               />
             )}
           </Col>
@@ -63,14 +76,37 @@ class AnalyticsPage extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col lg={6} md={12} className="mb-5">
-          {this.state.roleData.length > 0 && (
-            <Bar
-              data={util.formatDataForChart(this.state.roleData, 'title', 'salary', 'Salary ($)')}
-              height={400}
-              options={util.optionsForSalaryRangeChart(this.state.roleData, 'title', 'salary')}
-            />
-          )}
+          <Col lg={6} md={12} className="mb-5 pl-5 pr-5">
+            {this.state.roleData.length > 0 && (
+              <Bar
+                data={util.formatDataForChart(
+                  this.state.roleData,
+                  "title",
+                  "salary",
+                  "Salary ($)"
+                )}
+                height={400}
+                options={util.optionsForSalaryRangeChart(
+                  this.state.roleData,
+                  "title",
+                  "salary"
+                )}
+              />
+            )}
+          </Col>
+          <Col lg={6} md={12} className="mb-5 pl-5 pr-5">
+            {this.state.employeeData.length > 0 && (
+              <Bar
+                data={util.formatDataForChart(
+                  this.state.employeeData,
+                  "year",
+                  "employees_hired",
+                  "Employees Hired"
+                )}
+                height={400}
+                options={util.optionsForEmployeesHiredChart()}
+              />
+            )}
           </Col>
         </Row>
       </div>

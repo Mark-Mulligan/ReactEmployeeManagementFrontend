@@ -32,6 +32,9 @@ class RolesPage extends React.Component {
       })
       .catch((error) => {
         if (error.response) {
+          if (error.response.status === 500) {
+            this.setState({ errorMessage: "There was an error with the database." });
+          }
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
