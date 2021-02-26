@@ -3,3 +3,7 @@ body {
   background-color: rgb(35,35,35);
   color: rgba(220,220,215,255); 
 }
+
+.fixed-width-btn {
+  width: 71px;
+}

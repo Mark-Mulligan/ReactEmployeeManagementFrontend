@@ -15,19 +15,19 @@ class DeleteModal extends React.Component {
   render() {
     return (
       <>
-      <Button className="mr-2" variant="secondary" onClick={this.handleShow}>
+      <Button className="mr-2" variant="light" onClick={this.handleShow}>
         Delete
       </Button>
 
-      <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal className="modal" show={this.state.show} onHide={this.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{this.props.modalMessage}</Modal.Title>
         </Modal.Header>
         <div className="text-center p-3">
-          <Button className="mr-4" variant="danger" onClick={this.props.handleDeleteClick}>
+          <Button className="mr-4" variant="light" onClick={this.props.handleDeleteClick}>
             Delete
           </Button>
-          <Button variant="secondary" onClick={this.handleClose}>
+          <Button variant="outline-light" onClick={this.handleClose}>
             Cancel
           </Button>
         </div>

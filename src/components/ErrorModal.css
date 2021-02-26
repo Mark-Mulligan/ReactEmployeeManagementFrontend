@@ -1,0 +1,11 @@
+.modal {
+  color: rgb(220, 220, 220);
+}
+
+.modal .modal-header {
+  border: none;
+}
+
+.modal .modal-content {
+  background-color: rgb(25,25,25); 
+}

@@ -1,9 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import DeleteModal from "../components/DeleteModal";
 import VerticalTable from "../components/VerticalTable";
+import ButtonGroup from "../components/ButtonGroup";
 
 const headerAndKeys = [
   {header: 'First Name:', key:'first_name'},
@@ -48,20 +46,11 @@ class EmployeePage extends React.Component {
       <div className="container mt-5 text-center">
         <h2>Employee Profile</h2>
         <VerticalTable headersAndKeys={headerAndKeys} tableData={this.state.employee} />
-        <div>
-          <Button
-            as={Link}
-            to={`${this.state.employeeId}/edit`}
-            className="mr-4"
-            variant="secondary"
-          >
-            Edit
-          </Button>
-          <DeleteModal
-            modalMessage="Are you sure you want to delete this employee?"
-            handleDeleteClick={this.handleDeleteClick}
-          />
-        </div>
+        <ButtonGroup
+          modalMessage="Are you sure you want to delete this employee?"
+          handleDeleteClick={this.handleDeleteClick}
+          linkTo={`${this.state.employeeId}/edit`}
+         /> 
       </div>
     )
   }

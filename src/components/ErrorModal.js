@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
+import './ErrorModal.css';
 
 class ErrorModal extends React.Component {
   state = { show: true };
@@ -16,6 +17,7 @@ class ErrorModal extends React.Component {
     return (
       <>
         <Modal
+          className="modal"
           show={this.state.show}
           onHide={this.handleClose}
           backdrop="static"
@@ -25,7 +27,7 @@ class ErrorModal extends React.Component {
             <Modal.Title>{this.props.modalMessage}</Modal.Title>
           </Modal.Header>
           <div className="text-center p-3">
-            <Button variant="secondary" onClick={this.handleClose}>
+            <Button variant="light" onClick={this.handleClose}>
               Ok
             </Button>
           </div>
