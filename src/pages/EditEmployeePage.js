@@ -1,14 +1,15 @@
 import React from "react";
-import axios from "axios";
+import api from "../apis/api";
 import EmployeeForm from "../components/EmployeeForm";
+import ErrorModal from "../components/ErrorModal";
 
 class EditEmployeePage extends React.Component {
-  state = { employeeId: this.props.match.params.id };
+  state = { employeeId: this.props.match.params.id, errorMessage: "" };
 
   handleEditFormSubmit = (event, firstName, lastName, roleId, managerId) => {
     event.preventDefault();
-    axios
-      .put(`http://localhost:3001/employee/${this.state.employeeId}`, {
+    api
+      .put(`/employee/${this.state.employeeId}`, {
         firstName: firstName,
         lastName: lastName,
         roleId: roleId,
@@ -22,6 +23,9 @@ class EditEmployeePage extends React.Component {
         },
         (error) => {
           console.log(error);
+          this.setState({
+            errorMessage: "There was an error updating the employee.",
+          });
         }
       );
   };
@@ -30,11 +34,15 @@ class EditEmployeePage extends React.Component {
     return (
       <div className="container mt-5">
         <h2 className="text-center mb-3">Edit Employee</h2>
-        <EmployeeForm
-          employeeId={this.state.employeeId}
-          handleFormSubmit={this.handleEditFormSubmit}
-          history={this.props.history}
-        />
+        {this.state.errorMessage ? (
+          <ErrorModal modalMessage={this.state.errorMessage} />
+        ) : (
+          <EmployeeForm
+            employeeId={this.state.employeeId}
+            handleFormSubmit={this.handleEditFormSubmit}
+            history={this.props.history}
+          />
+        )}
       </div>
     );
   }

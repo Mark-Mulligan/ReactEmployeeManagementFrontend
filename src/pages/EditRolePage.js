@@ -3,7 +3,7 @@ import api from "../apis/api";
 import RoleForm from "../components/RoleForm";
 import ErrorModal from "../components/ErrorModal";
 
-class EditEmployeePage extends React.Component {
+class EditRolePage extends React.Component {
   state = { roleId: this.props.match.params.id, errorMessage: "" };
 
   handleFormSubmit = (event, title, salary, departmentId) => {
@@ -46,4 +46,4 @@ class EditEmployeePage extends React.Component {
   }
 }
 
-export default EditEmployeePage;
+export default EditRolePage;

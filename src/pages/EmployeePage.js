@@ -52,7 +52,7 @@ class EmployeePage extends React.Component {
     api.delete(`/employee/${this.state.employeeId}`).then(
       (response) => {
         if (response.status === 200) {
-          this.props.history.push("/roles");
+          this.props.history.push("/employees");
         }
       },
       (error) => {
