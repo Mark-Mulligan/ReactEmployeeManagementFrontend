@@ -27,7 +27,7 @@ export default function VerticalTable(props) {
       return headersAndKeys.map(row => {
         return <TableRow key={row.header}>
           <TableCell className={`${classes.cell} ${classes.header}`} align="right">{row.header}</TableCell>
-          <TableCell className={classes.cell}>{tableData[row.key]}</TableCell>
+          <TableCell className={classes.cell}>{tableData[row.key] ? tableData[row.key] : '0'}</TableCell>
         </TableRow>
       })
     }

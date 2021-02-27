@@ -1,7 +1,8 @@
 import React from "react";
-import axios from "axios";
+import api from "../apis/api";
 import VerticalTable from "../components/VerticalTable";
-import ButtonGroup from "../components/ButtonGroup";
+import EditDeleteGroup from "../components/EditDeleteGroup";
+import ErrorModal from "../components/ErrorModal";
 
 const headerAndKeys = [
   { header: "Title:", key: "title" },
@@ -13,17 +14,36 @@ const headerAndKeys = [
 ];
 
 class RolePage extends React.Component {
-  state = { role: null, roleId: this.props.match.params.id };
+  state = { role: null, roleId: this.props.match.params.id, errorMessage: "" };
 
-  getRole = async () => {
-    const { data } = await axios.get(
-      `http://localhost:3001/role/${this.state.roleId}`
-    );
-    this.setState({ role: data[0] });
+  getRole = () => {
+    api
+      .get(`/role/${this.state.roleId}`)
+      .then((response) => {
+        this.setState({ role: response.data[0] });
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          this.setState({ errorMessage: error.response.statusText });
+        } else if (error.request) {
+          console.log(error.request);
+          this.setState({
+            errorMessage:
+              "There was an error connecting to the server. Please reload the page.",
+          });
+        } else {
+          console.log("Error", error.message);
+          this.setState({
+            errorMessage: "There was an error loading the page.",
+          });
+        }
+        console.log(error.config);
+      });
   };
 
   handleDeleteClick = () => {
-    axios.delete(`http://localhost:3001/role/${this.state.roleId}`).then(
+    api.delete(`/role/${this.state.roleId}`).then(
       (response) => {
         if (response.status === 200) {
           this.props.history.push("/roles");
@@ -31,6 +51,9 @@ class RolePage extends React.Component {
       },
       (error) => {
         console.log(error);
+        this.setState({
+          errorMessage: "There was an error deleteing the role.",
+        });
       }
     );
   };
@@ -44,15 +67,21 @@ class RolePage extends React.Component {
     return (
       <div className="container mt-5">
         <h2 className="text-center">Role Profile</h2>
-        <VerticalTable
-          headersAndKeys={headerAndKeys}
-          tableData={this.state.role}
-        />
-        <ButtonGroup
-          modalMessage="Warning! Deleting this role will also delete all the employees that have this role.  Are you sure you want to delete it?"
-          handleDeleteClick={this.handleDeleteClick}
-          linkTo={`${this.state.roleId}/edit`}
-         /> 
+        {this.state.errorMessage ? (
+          <ErrorModal modalMessage={this.state.errorMessage} />
+        ) : (
+          <div>
+            <VerticalTable
+              headersAndKeys={headerAndKeys}
+              tableData={this.state.role}
+            />
+            <EditDeleteGroup
+              modalMessage="Warning! Deleting this role will also delete all the employees that have this role.  Are you sure you want to delete it?"
+              handleDeleteClick={this.handleDeleteClick}
+              linkTo={`${this.state.roleId}/edit`}
+            />
+          </div>
+        )}
       </div>
     );
   }

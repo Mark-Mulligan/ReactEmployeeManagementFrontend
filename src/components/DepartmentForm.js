@@ -48,7 +48,7 @@ class DepartmentForm extends React.Component {
       <form
           onSubmit={(e) => this.props.handleFormSubmit(e, this.state.departmentName)}
         >
-          <FormControl fullWidth={true}>
+          <FormControl fullWidth={true} className="mb-4">
             <TextField
               id="departmentNameInput"
               label="Name"
@@ -60,8 +60,8 @@ class DepartmentForm extends React.Component {
               }
             />
           </FormControl>
-          <div className="mt-2">
-            <Button className="mr-2" variant="secondary" type="submit">
+          <div>
+            <Button className="mr-3 mb-3" variant="light" type="submit">
             {this.props.departmentId ? "Submit Changes" : "Create Department"}
             </Button>
             {this.props.departmentId ? (
@@ -70,7 +70,7 @@ class DepartmentForm extends React.Component {
               handleDeleteClick={this.handleDeleteClick}
             />
           ) : null}
-          <Button as={Link} to={"/departments"} variant="secondary">
+          <Button className="mb-3" as={Link} to={"/departments"} variant="outline-light">
             Cancel
           </Button>
           </div>

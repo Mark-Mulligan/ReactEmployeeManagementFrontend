@@ -3,7 +3,7 @@ import { Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import DeleteModal from './DeleteModal';
 
-const ButtonGroup = (props) => {
+const EditDeleteGroup = (props) => {
   return (
     <div className="mt-3">
           <Row>
@@ -28,4 +28,4 @@ const ButtonGroup = (props) => {
   )
 }
 
-export default ButtonGroup;
+export default EditDeleteGroup;

@@ -46,9 +46,11 @@ const Util = {
         bodyFontSize: 16,
         callbacks: {
           label: (tooltipItem) => {
-            return `${chartLabels[tooltipItem.index]}: $${chartData[
-              tooltipItem.index
-            ].toLocaleString()}`;
+            if (chartData[tooltipItem.index]) {
+              return `${chartLabels[tooltipItem.index]}: $${chartData[
+                tooltipItem.index
+              ].toLocaleString()}`;
+            }
           },
         },
       },
@@ -96,7 +98,9 @@ const Util = {
         titleFontSize: 16,
         callbacks: {
           label: (tooltipItem) => {
-            return `$${chartData[tooltipItem.index].toLocaleString()}`;
+            if (chartData[tooltipItem.index]) {
+              return `$${chartData[tooltipItem.index].toLocaleString()}`;
+            }
           },
         },
       },

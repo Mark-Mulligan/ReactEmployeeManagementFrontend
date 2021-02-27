@@ -89,7 +89,7 @@ class RoleForm extends React.Component {
         }
       >
         <Row>
-          <Col md={4} sm={12}>
+          <Col md={4} sm={12} className="mb-4">
             <FormControl fullWidth={true}>
               <TextField
                 id="roleNameInput"
@@ -101,7 +101,7 @@ class RoleForm extends React.Component {
               />
             </FormControl>
           </Col>
-          <Col md={4} sm={12}>
+          <Col md={4} sm={12} className="mb-4">
             <FormControl fullWidth={true}>
               <TextField
                 id="roleSalaryInput"
@@ -114,7 +114,7 @@ class RoleForm extends React.Component {
               />
             </FormControl>
           </Col>
-          <Col md={4} sm={12}>
+          <Col md={4} sm={12} className="mb-4">
             <FormControl required variant="outlined" fullWidth={true}>
               <InputLabel id="departmentSelectLabel">
                 Department
@@ -138,8 +138,8 @@ class RoleForm extends React.Component {
           </Col>
         </Row>
 
-        <div className="mt-2">
-          <Button className="mr-2" variant="secondary" type="submit">
+        <div>
+          <Button className="mr-3 mb-3" variant="light" type="submit">
             {this.props.roleId ? "Submit Changes" : "Create Role"}
           </Button>
           {this.props.roleId ? (
@@ -148,7 +148,7 @@ class RoleForm extends React.Component {
               handleDeleteClick={this.handleDeleteClick}
             />
           ) : null}
-          <Button as={Link} to={"/roles"} variant="secondary">
+          <Button className="mb-3" as={Link} to={"/roles"} variant="outline-light">
             Cancel
           </Button>
         </div>

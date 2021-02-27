@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from '../apis/api';
 import { DataGrid } from "@material-ui/data-grid";
 import "./AllEmployeesPage.css";
 
@@ -35,9 +35,9 @@ class AllEmployeesPage extends React.Component {
   state = { employees: [] };
 
   getEmployees = async () => {
-    const { data } = await axios.get("http://localhost:3001/employees");
+    const { data } = await api.get('/employees');
     this.setState({ employees: data });
-  };
+  }
 
   componentDidMount() {
     this.getEmployees();

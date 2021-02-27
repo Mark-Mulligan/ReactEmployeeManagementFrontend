@@ -1,9 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import VerticalTable from '../components/VerticalTable';
-import DeleteModal from '../components/DeleteModal';
+import EditDeleteGroup from '../components/EditDeleteGroup';
 
 const headerAndKeys = [
   {header: 'Name:', key:'name'},
@@ -46,20 +44,11 @@ class DepartmentPage extends React.Component {
       <div className="container mt-5">
         <h2 className="text-center">Department Profile</h2>
         <VerticalTable headersAndKeys={headerAndKeys} tableData={this.state.department} />
-        <div className="text-center">
-          <Button
-            as={Link}
-            to={`${this.state.departmentId}/edit`}
-            className="mr-4"
-            variant="secondary"
-          >
-            Edit
-          </Button>
-          <DeleteModal
-            modalMessage="Are you sure you want to delete this Department?"
-            handleDeleteClick={this.handleDeleteClick}
-          />
-        </div>
+        <EditDeleteGroup
+          modalMessage="Warning! Deleting this Department will also delete all the roles and employees in this department.  Are you sure you want to delete it?"
+          handleDeleteClick={this.handleDeleteClick}
+          linkTo={`${this.state.departmentId}/edit`}
+         /> 
       </div>
     );
   }

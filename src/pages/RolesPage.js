@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "../apis/api";
 import { DataGrid } from "@material-ui/data-grid";
 import ErrorModal from "../components/ErrorModal";
 import "./RolesPage.css";
@@ -12,32 +12,28 @@ const columns = [
     headerName: "Department",
     width: 170,
   },
-  { field: "salary", 
-    headerName: "Salary", 
-    width: 140, 
+  {
+    field: "salary",
+    headerName: "Salary",
+    width: 140,
     type: "number",
-    valueFormatter: ({ value }) => `$${value.toLocaleString()}`
-   },
+    valueFormatter: ({ value }) => `$${value.toLocaleString()}`,
+  },
 ];
 
 class RolesPage extends React.Component {
   state = { roles: [], errorMessage: "" };
 
   getRoles = () => {
-    axios
-      .get("http://localhost:3001/roles")
+    api
+      .get("/roles")
       .then((response) => {
-        console.log(response);
-        this.setState({ roles: response.data});
+        this.setState({ roles: response.data });
       })
       .catch((error) => {
         if (error.response) {
-          if (error.response.status === 500) {
-            this.setState({ errorMessage: "There was an error with the database." });
-          }
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          console.log(error.response);
+          this.setState({ errorMessage: error.response.statusText });
         } else if (error.request) {
           console.log(error.request);
           this.setState({
@@ -46,6 +42,9 @@ class RolesPage extends React.Component {
           });
         } else {
           console.log("Error", error.message);
+          this.setState({
+            errorMessage: "There was an error loading the page.",
+          });
         }
         console.log(error.config);
       });

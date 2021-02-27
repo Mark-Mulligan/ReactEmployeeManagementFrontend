@@ -15,7 +15,7 @@ class DeleteModal extends React.Component {
   render() {
     return (
       <>
-      <Button className="mr-2" variant="light" onClick={this.handleShow}>
+      <Button className="mr-3 mb-3" variant="light" onClick={this.handleShow}>
         Delete
       </Button>
 

@@ -18,7 +18,13 @@ const columns = [
     headerName: "Total Utilization",
     width: 160,
     type: "number",
-    valueFormatter: ({ value }) => `$${value.toLocaleString()}`
+    valueFormatter: ({ value }) => {
+      if (value) {
+        return `$${value.toLocaleString()}`
+      } else {
+        return `$0`;
+      }
+    }
   },
 ];
 
