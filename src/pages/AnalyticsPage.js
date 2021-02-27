@@ -7,7 +7,6 @@ import { defaults } from "react-chartjs-2";
 
 defaults.global.defaultFontColor = "rgba(220,220,215,255)";
 defaults.global.elements.line.borderColor = "rgba(220,220,215,255)";
-//defaults.global.gridLines.color = 'rgba(220,220,215,255)';
 
 class AnalyticsPage extends React.Component {
   state = { departments: [], roleData: [], employeeData: [] };
@@ -41,23 +40,26 @@ class AnalyticsPage extends React.Component {
   render() {
     return (
       <div className="container-fluid mt-5">
+        <div className="mb-4">
+          <h1 className="text-center">Company Overview</h1>
+        </div>
         <Row>
           <Col lg={6} md={12} className="mb-5">
             {this.state.departments.length > 0 && (
-              <Doughnut
-                data={util.formatDataForChart(
-                  this.state.departments,
-                  "name",
-                  "departmentUtilization"
-                )}
-                height={400}
-                width={400}
-                options={util.optionsForDepUtilChart(
-                  this.state.departments,
-                  "name",
-                  "departmentUtilization"
-                )}
-              />
+                <Doughnut
+                  data={util.formatDataForChart(
+                    this.state.departments,
+                    "name",
+                    "departmentUtilization"
+                  )}
+                  height={400}
+                  width={400}
+                  options={util.optionsForDepUtilChart(
+                    this.state.departments,
+                    "name",
+                    "departmentUtilization"
+                  )}
+                />
             )}
           </Col>
           <Col lg={6} md={12} className="mb-5">
@@ -70,13 +72,13 @@ class AnalyticsPage extends React.Component {
                 )}
                 height={400}
                 width={400}
-                options={util.optionsEmployeesPerDeptChart()}
+                options={util.optionsEmployeesPerDeptChart(this.state.departments, "employees")}
               />
             )}
           </Col>
         </Row>
         <Row>
-          <Col lg={6} md={12} className="mb-5 pl-5 pr-5">
+          <Col lg={6} md={12} className="mb-5 pl-4 pr-4">
             {this.state.roleData.length > 0 && (
               <Bar
                 data={util.formatDataForChart(
@@ -94,7 +96,7 @@ class AnalyticsPage extends React.Component {
               />
             )}
           </Col>
-          <Col lg={6} md={12} className="mb-5 pl-5 pr-5">
+          <Col lg={6} md={12} className="mb-5 pl-4 pr-4">
             {this.state.employeeData.length > 0 && (
               <Bar
                 data={util.formatDataForChart(

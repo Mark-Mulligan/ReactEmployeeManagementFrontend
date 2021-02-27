@@ -6,9 +6,9 @@ import EditDeleteGroup from '../components/EditDeleteGroup';
 const headerAndKeys = [
   {header: 'Name:', key:'name'},
   {header: 'Department Id:', key: 'id'},
-  {header: 'Employees:', key: 'employees'},
-  {header: 'Roles:', key: 'roles'},
-  {header: 'Total Utilization:', key: 'departmentUtilization'},
+  {header: 'Employees:', key: 'employees', type: 'number'},
+  {header: 'Roles:', key: 'roles', type: 'number'},
+  {header: 'Total Utilization:', key: 'departmentUtilization', type: 'money' },
 ]
 
 class DepartmentPage extends React.Component {

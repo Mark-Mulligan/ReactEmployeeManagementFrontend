@@ -8,9 +8,9 @@ const headerAndKeys = [
   { header: "Title:", key: "title" },
   { header: "Department:", key: "name" },
   { header: "Role Id:", key: "id" },
-  { header: "Employees:", key: "employees" },
-  { header: "Salary:", key: "salary" },
-  { header: "Total Utilization:", key: "roleUtilization" },
+  { header: "Employees:", key: "employees", type: "number" },
+  { header: "Salary:", key: "salary", type: "money" },
+  { header: "Total Utilization:", key: "roleUtilization", type: "money" },
 ];
 
 class RolePage extends React.Component {

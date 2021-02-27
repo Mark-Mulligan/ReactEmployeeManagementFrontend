@@ -30,16 +30,18 @@ const Util = {
   optionsForDepUtilChart: function (inputData, labelKey, dataKey) {
     const chartData = [];
     const chartLabels = [];
+    let total = 0;
     inputData.forEach((item) => {
       chartData.push(item[dataKey]);
       chartLabels.push(item[labelKey]);
+      total += Number(item[dataKey]);
     });
 
     return {
       title: {
         fontSize: 24,
         display: true,
-        text: "Department Utilization",
+        text: ["Utilization By Department", `Total = $${total.toLocaleString()}`],
       },
       maintainAspectRatio: false,
       tooltips: {
@@ -147,12 +149,17 @@ const Util = {
     };
   },
 
-  optionsEmployeesPerDeptChart: function () {
+  optionsEmployeesPerDeptChart: function (inputData, dataKey) {
+    let total = 0;
+    inputData.forEach(item => {
+      total += Number(item[dataKey]);
+    })
+
     return {
       title: {
         fontSize: 24,
         display: true,
-        text: "Employee Distribution",
+        text: ["Employee Distribution", `Total Employees = ${total.toLocaleString()}`]
       },
       maintainAspectRatio: false,
       tooltips: {

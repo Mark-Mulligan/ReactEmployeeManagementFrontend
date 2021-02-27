@@ -9,8 +9,9 @@ const headerAndKeys = [
   { header: "Last Name:", key: "last_name" },
   { header: "Employee Id:", key: "id" },
   { header: "Title:", key: "title" },
+  { header: "Manager", key:"manager"},
   { header: "Department:", key: "department" },
-  { header: "Salary:", key: "salary" },
+  { header: "Salary:", key: "salary", type: 'money' },
 ];
 
 class EmployeePage extends React.Component {
@@ -25,6 +26,7 @@ class EmployeePage extends React.Component {
       .get(`/employee/${this.state.employeeId}`)
       .then(({ data }) => {
         this.setState({ employee: data[0] });
+        console.log(data);
       })
       .catch((error) => {
         if (error.response) {
