@@ -1,11 +1,15 @@
-import React from 'react';
-import axios from 'axios';
-import RoleForm from '../components/RoleForm';
+import React from "react";
+import api from "../apis/api";
+import ErrorModal from "../components/ErrorModal";
+import RoleForm from "../components/RoleForm";
 
 class CreateRolePage extends React.Component {
+  state = { errorMessage: "" };
+
   handleFormSubmit = (e, title, salary, departmentId) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/roles", {
+    api
+      .post("/roles", {
         title: title,
         salary: salary,
         departmentId: departmentId,
@@ -18,6 +22,9 @@ class CreateRolePage extends React.Component {
         },
         (error) => {
           console.log(error);
+          this.setState({
+            errorMessage: "There was an error updating the role.",
+          });
         }
       );
   };
@@ -26,11 +33,13 @@ class CreateRolePage extends React.Component {
     return (
       <div className="container mt-5">
         <h2 className="text-center mb-4">Create Role</h2>
-        <RoleForm 
-          handleFormSubmit={this.handleFormSubmit}
-        />
+        {this.state.errorMessage ? (
+          <ErrorModal modalMessage={this.state.errorMessage} />
+        ) : (
+          <RoleForm handleFormSubmit={this.handleFormSubmit} />
+        )}
       </div>
-    )
+    );
   }
 }
 

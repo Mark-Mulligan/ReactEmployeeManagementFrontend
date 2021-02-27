@@ -1,6 +1,8 @@
 import React from "react";
-import api from '../apis/api';
 import { DataGrid } from "@material-ui/data-grid";
+import api from "../apis/api";
+import ErrorModal from "../components/ErrorModal";
+
 import "./AllEmployeesPage.css";
 
 const columns = [
@@ -21,23 +23,43 @@ const columns = [
     field: "salary",
     headerName: "Salary",
     type: "number",
-    valueFormatter: ({ value }) => `$${value.toLocaleString()}`
+    valueFormatter: ({ value }) => `$${value.toLocaleString()}`,
   },
   {
     field: "manager",
     headerName: "Manager",
     width: 150,
-    valueFormatter: ({ value }) => !value ? 'N/A' : value
+    valueFormatter: ({ value }) => (!value ? "N/A" : value),
   },
 ];
 
 class AllEmployeesPage extends React.Component {
-  state = { employees: [] };
+  state = { employees: [], errorMessage: "" };
 
-  getEmployees = async () => {
-    const { data } = await api.get('/employees');
-    this.setState({ employees: data });
-  }
+  getEmployees = () => {
+    api
+      .get("/employees")
+      .then((response) => {
+        this.setState({ employees: response.data });
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          this.setState({ errorMessage: error.response.statusText });
+        } else if (error.request) {
+          console.log(error.request);
+          this.setState({
+            errorMessage: "There was an error connecting to the server.",
+          });
+        } else {
+          console.log("Error", error.message);
+          this.setState({
+            errorMessage: "There was an error loading the page.",
+          });
+        }
+        console.log(error.config);
+      });
+  };
 
   componentDidMount() {
     this.getEmployees();
@@ -47,19 +69,23 @@ class AllEmployeesPage extends React.Component {
     return (
       <div className="mt-5">
         <h2 className="text-center">Employees</h2>
-        <div className="employee-table-container">
-          <DataGrid
-            autoHeight={true}
-            rowHeight={30}
-            scrollbarSize={20}
-            rows={this.state.employees}
-            columns={columns}
-            disableSelectionOnClick={true}
-            onRowClick={(data) => {
-              this.props.history.push(`/employee/${data.row.id}`);
-            }}
-          />
-        </div>
+        {this.state.errorMessage ? (
+          <ErrorModal modalMessage={this.state.errorMessage} />
+        ) : (
+          <div className="employee-table-container">
+            <DataGrid
+              autoHeight={true}
+              rowHeight={30}
+              scrollbarSize={20}
+              rows={this.state.employees}
+              columns={columns}
+              disableSelectionOnClick={true}
+              onRowClick={(data) => {
+                this.props.history.push(`/employee/${data.row.id}`);
+              }}
+            />
+          </div>
+        )}
       </div>
     );
   }

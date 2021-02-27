@@ -1,13 +1,15 @@
 import React from "react";
-import axios from "axios";
+import api from "../apis/api";
 import EmployeeForm from "../components/EmployeeForm";
+import ErrorModal from "../components/ErrorModal";
 
 class CreateEmployeePage extends React.Component {
+  state = { errorMessage: "" };
 
   handleCreateFormSubmit = (event, firstName, lastName, roleId, managerId) => {
     event.preventDefault();
-    axios
-      .post("http://localhost:3001/employees", {
+    api
+      .post("/employees", {
         firstName: firstName,
         lastName: lastName,
         roleId: roleId,
@@ -21,6 +23,9 @@ class CreateEmployeePage extends React.Component {
         },
         (error) => {
           console.log(error);
+          this.setState({
+            errorMessage: "There was an error updating the role.",
+          });
         }
       );
   };
@@ -29,10 +34,14 @@ class CreateEmployeePage extends React.Component {
     return (
       <div className="container mt-5">
         <h2 className="text-center mb-3">Create Employee</h2>
-        <EmployeeForm
-          handleFormSubmit={this.handleCreateFormSubmit}
-          history={this.props.history}
-        />
+        {this.state.errorMessage ? (
+          <ErrorModal modalMessage={this.state.errorMessage} />
+        ) : (
+          <EmployeeForm
+            handleFormSubmit={this.handleCreateFormSubmit}
+            history={this.props.history}
+          />
+        )}
       </div>
     );
   }
